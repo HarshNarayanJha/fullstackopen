@@ -1,15 +1,21 @@
 import './App.css'
 
-function App() {
+const Hello = () => {
+  return (
+    <div>
+      <p>Hello World</p>
+    </div>
+  )
+}
 
-  const date = new Date()
-  const a = 10
-  const b = 20
+function App() {
 
   return (
     <div>
-      <p>Hello World!, it is { date.toString() }</p>
-      <p>{ a } plus { b } is { a + b }</p>
+      <h1>Greetings</h1>
+      <Hello />
+      <Hello />
+      <Hello />
     </div>
   )
 }
