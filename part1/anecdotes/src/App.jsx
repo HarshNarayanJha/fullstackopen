@@ -29,13 +29,31 @@ const App = () => {
     }))
   }
 
+  const getMaxVotedAnectode = () => {
+    let mostVoted = 0
+    let mostVotedIndex = 0
+    votes.forEach((vote, c) => {
+      if (vote > mostVoted) {
+        mostVoted = vote
+        mostVotedIndex = c
+      }
+    })
+
+    return anecdotes[mostVotedIndex]
+  }
+
   return (
     <div>
+      <h1>Anectode of the day</h1>
       <div>{anecdotes[selected]}</div>
       <div>has {votes[selected]} votes</div>
+
       <button onClick={() => { vote(selected) }}>vote</button>
       &nbsp;&nbsp;
       <button onClick={() => { setSelected(getRandomIndex(anecdotes.length)) }}>next anectode</button>
+
+      <h1>Anectode with most Votes</h1>
+      <div>{getMaxVotedAnectode()}</div>
     </div>
   )
 }
