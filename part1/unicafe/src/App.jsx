@@ -6,18 +6,22 @@ const Statistics = (props) => {
 
   const getTotalFeedbacks = () => good + neutral + bad
   const getAverageFeedback = () => {
-    if (getTotalFeedbacks() == 0) return 0
+    if (getTotalFeedbacks() == 0 && neutral == 0) return 0
     return (good - bad) / getTotalFeedbacks();
   }
   const getPositiveFeedback = () => {
-    if (getTotalFeedbacks() == 0) return 0
+    if (getTotalFeedbacks() == 0 && neutral == 0) return 0
     return good / getTotalFeedbacks() * 100;
   }
 
+  if (getAverageFeedback() == 0 && neutral == 0) return (
+    <>
+      <p>No feedback given</p>
+    </>
+  )
+
   return (
     <>
-      <h2>Statistics</h2>
-      
       <div>Good {good}</div>
       <div>Neutral {neutral}</div>
       <div>Bad {bad}</div>
@@ -43,7 +47,7 @@ const App = () => {
         <button onClick={() => setNeutral(neutral + 1)}>Neutral</button> &nbsp;&nbsp;
         <button onClick={() => setBad(bad + 1)}>Bad</button> &nbsp;&nbsp;
       </div>
-
+      <h2>Statistics</h2>
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
