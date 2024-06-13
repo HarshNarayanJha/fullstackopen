@@ -16,7 +16,12 @@ const App = () => {
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
 
   const getRandomIndex = (i) => {
-    return Math.floor(Math.random() * i)
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const rindex = Math.floor(Math.random() * i)
+      if (rindex !== selected) return rindex
+
+    }
   }
 
   const vote = (index) => {
@@ -39,7 +44,7 @@ const App = () => {
       }
     })
 
-    return anecdotes[mostVotedIndex]
+    return mostVotedIndex
   }
 
   return (
@@ -48,12 +53,15 @@ const App = () => {
       <div>{anecdotes[selected]}</div>
       <div>has {votes[selected]} votes</div>
 
-      <button onClick={() => { vote(selected) }}>vote</button>
-      &nbsp;&nbsp;
-      <button onClick={() => { setSelected(getRandomIndex(anecdotes.length)) }}>next anectode</button>
+      <div>
+        <button onClick={() => { vote(selected) }}>vote</button>
+        &nbsp;&nbsp;
+        <button onClick={() => { setSelected(getRandomIndex(anecdotes.length)) }}>next anectode</button>
+      </div>
 
       <h1>Anectode with most Votes</h1>
-      <div>{getMaxVotedAnectode()}</div>
+      <div>{anecdotes[getMaxVotedAnectode()]}</div>
+      <div>has {votes[getMaxVotedAnectode()]} votes</div>
     </div>
   )
 }
