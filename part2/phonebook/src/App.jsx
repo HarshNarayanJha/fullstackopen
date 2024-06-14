@@ -8,8 +8,12 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setPersons(persons.concat({name: newName}))
-    setNewName('')
+    if (persons.reduce((acc, person) => {return acc + (person.name === newName) ? 1 : 0}, 0) == 0) {
+      setPersons(persons.concat({name: newName}))
+      setNewName('')
+    } else {
+      alert(`${newName} is already added to phonebook`)
+    }
   }
 
   const handleNewName = (e) => {
