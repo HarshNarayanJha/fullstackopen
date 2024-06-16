@@ -7,7 +7,7 @@ import Filter from './components/Filter'
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
-  const [newPhone, setNewPhone] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const [searchName, setSearchName] = useState('')
 
@@ -21,21 +21,35 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const alreadyIn = persons.reduce((acc, person) => { return acc + (person.name === newName) ? 1 : 0 + (person.phone === newPhone) ? -1 : 0 }, 0);
+    const alreadyIn = persons.reduce((acc, person) => { return acc + (person.name === newName) ? 1 : 0 + (person.number === newNumber) ? -1 : 0 }, 0);
 
     if (alreadyIn == 0) {
 
-      const newPerson = { name: newName, phone: newPhone }
-      personService.create(newPerson)
+      const newPerson = { name: newName, number: newNumber }
+      personService
+        .create(newPerson)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
-          setNewPhone('')
+          setNewNumber('')
         })
 
     } else {
 
-      alert(`${alreadyIn > 0 ? newName : newPhone} is already added to phonebook`)
+      alert(`${alreadyIn > 0 ? newName : newNumber} is already added to phonebook`)
+    }
+  }
+
+  const deletePerson = (id) => {
+
+    const person = persons.find(person => person.id === id)
+
+    if (confirm(`Delete ${person.name} ?`)) {
+      personService
+        .deletePerson(id)
+        .then(returnedData => {
+          setPersons(persons.filter(person => person.id !== returnedData.id))
+        })
     }
   }
 
@@ -43,8 +57,8 @@ const App = () => {
     setNewName(e.target.value)
   }
 
-  const handleNewPhone = (e) => {
-    setNewPhone(e.target.value)
+  const handleNewNumber = (e) => {
+    setNewNumber(e.target.value)
   }
 
   const handleSearchName = (e) => {
@@ -64,11 +78,11 @@ const App = () => {
 
       <h3>Add a new</h3>
 
-      <PersonForm handleSubmit={handleSubmit} newName={newName} newPhone={newPhone} handleNewName={handleNewName} handleNewPhone={handleNewPhone} />
+      <PersonForm handleSubmit={handleSubmit} newName={newName} newNumber={newNumber} handleNewName={handleNewName} handleNewNumber={handleNewNumber} />
 
       <h3>Numbers</h3>
 
-      <Persons persons={searchPersons} />
+      <Persons persons={searchPersons} action={deletePerson} actionLabel={"delete"} />
     </div>
   )
 }
