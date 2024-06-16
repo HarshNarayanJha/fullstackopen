@@ -22,11 +22,21 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const alreadyIn = persons.reduce((acc, person) => { return acc + (person.name === newName) ? 1 : 0 + (person.phone === newPhone) ? -1 : 0 }, 0);
+
     if (alreadyIn == 0) {
-      setPersons(persons.concat({ name: newName, phone: newPhone }))
-      setNewName('')
-      setNewPhone('')
+
+      const newPerson = { name: newName, phone: newPhone }
+      axios
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewPhone('')
+        })
+        
+
     } else {
+
       alert(`${alreadyIn > 0 ? newName : newPhone} is already added to phonebook`)
     }
   }
