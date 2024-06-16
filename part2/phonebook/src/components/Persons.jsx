@@ -1,6 +1,6 @@
 const Persons = (props) => {
-    console.log(props);
     return props.persons.map(person => {
+        console.log(person);
         return (
             <div key={person.id}>
                 <li style={{ 'display': "inline" }}>{person.name} {person.number}</li>

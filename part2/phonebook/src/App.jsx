@@ -21,7 +21,7 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const alreadyIn = persons.reduce((acc, person) => { return acc + (person.name === newName) ? 1 : 0 + (person.number === newNumber) ? -1 : 0 }, 0);
+    const alreadyIn = persons.reduce((acc, p) => { return acc + (p.name === newName) ? 1 : 0 + (p.number === newNumber) ? -1 : 0 }, 0);
 
     if (alreadyIn == 0) {
 
@@ -34,9 +34,21 @@ const App = () => {
           setNewNumber('')
         })
 
-    } else {
+    } else if (alreadyIn > 0) {
+      if (confirm(`${newName} is already added to the phonebook, replace the old number with the new one?`)) {
 
-      alert(`${alreadyIn > 0 ? newName : newNumber} is already added to phonebook`)
+        const person = persons.find(p => p.name === newName)
+        const updatedPerson = { ...person, number: newNumber }
+        personService
+          .update(person.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
+    } else {
+      alert(`Number ${newNumber} is already added to phonebook`)
     }
   }
 
