@@ -7,7 +7,7 @@ This repository contains my exercise solutions for the fullstackopen course [her
 ## Completion
 - [x] part0
 - [x] part1
-- [ ] part2
+- [x] part2
 - [ ] part3
 - [ ] part4
 - [ ] part5
