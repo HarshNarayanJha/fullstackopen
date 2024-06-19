@@ -5,7 +5,7 @@ const Countries = ({ countries, action, matchedCountry }) => {
     return countries.map(country =>
         <li key={country.cioc}>
             {country.name.common}&nbsp;&nbsp;
-            <button onClick={() => action(country.cioc)}>{(matchedCountry && matchedCountry.cioc === country.cioc) ? "hide" : "show"}</button>
+            <button key={country.cioc} onClick={() => action(country.cioc)}>{(matchedCountry && matchedCountry.cioc === country.cioc) ? "hide" : "show"}</button>
         </li>)
 }
 

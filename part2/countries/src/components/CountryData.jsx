@@ -1,4 +1,6 @@
-const CountryData = ({ country }) => {
+import WeatherData from "./WeatherData"
+
+const CountryData = ({ country, weatherData }) => {
     if (country == null) {
         return
     }
@@ -18,6 +20,8 @@ const CountryData = ({ country }) => {
         </ul>
 
         <img src={country.flags.png} />
+
+        <WeatherData countryName={country.name.common} weatherData={weatherData} />
     </>
 }
 
