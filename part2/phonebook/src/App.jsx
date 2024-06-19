@@ -3,6 +3,8 @@ import personService from './services/persons'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
+import Notification from "./components/Notification"
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,6 +12,9 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 
   const [searchName, setSearchName] = useState('')
+
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -34,6 +39,12 @@ const App = () => {
           setNewNumber('')
         })
 
+      setSuccessMessage(`Added ${newPerson.name}`)
+
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+
     } else if (alreadyIn > 0) {
       if (confirm(`${newName} is already added to the phonebook, replace the old number with the new one?`)) {
 
@@ -46,9 +57,18 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
+        setSuccessMessage(`Updated ${updatedPerson.name}`)
+
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
       }
     } else {
-      alert(`Number ${newNumber} is already added to phonebook`)
+      setErrorMessage(`Number ${newNumber} is already added to phonebook!`)
+
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -62,6 +82,12 @@ const App = () => {
         .then(returnedData => {
           setPersons(persons.filter(person => person.id !== returnedData.id))
         })
+
+      setSuccessMessage(`Deleted ${person.name}`)
+
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
     }
   }
 
@@ -85,6 +111,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={errorMessage} messageType={'error'} />
+      <Notification message={successMessage} messageType={'success'} />
 
       <Filter searchName={searchName} handleSearchName={handleSearchName} />
 
