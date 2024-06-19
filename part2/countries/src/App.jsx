@@ -36,8 +36,10 @@ const App = () => {
     setMatchedCountries(null)
     setMatchCountry(null)
 
+    if (!e.target.value) { return }
+
     var singleMatch = false
-    var singleMatchCountry = -1
+    var singleMatchCountry = null
 
     const tempCountries = countries.filter((country) => {
       if (country.name.common.toLowerCase() === e.target.value.toLowerCase()) {
@@ -64,6 +66,15 @@ const App = () => {
     }
   }
 
+  const toggleCountryData = (cioc) => {
+    if (matchCountry == null) {
+      const toggleCountry = matchedCountries.find(country => country.cioc === cioc)
+      setMatchCountry(toggleCountry)
+    } else {
+      setMatchCountry(null)
+    }
+  }
+
   return (
     <div>
       <h2>Countries</h2>
@@ -72,7 +83,7 @@ const App = () => {
 
       <Notification message={message} messageType={'info'}/>
 
-      <Countries countries={matchedCountries} />
+      <Countries countries={matchedCountries} action={toggleCountryData} matchedCountry={matchCountry}/>
       <CountryData country={matchCountry} />
     </div>
   )

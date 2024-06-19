@@ -1,19 +1,9 @@
-.error {
-    color: red;
+.info {
+    color: rgb(44, 44, 44);
     background: lightgrey;
     font-size: 20px;
     border-style: solid;
     border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.success {
-    color: green;
-    background: lightgrey;
-    font-size: 20px;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin: 10px;
 }
