@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import personService from './services/persons'
 import PersonForm from './components/PersonForm'
@@ -22,6 +23,13 @@ const App = () => {
       .then((initialPersons) => {
         setPersons(initialPersons)
       })
+      .catch(error => {
+        setErrorMessage(`Error fetching information from the server`)
+
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
   }, [])
 
   const handleSubmit = (e) => {
@@ -37,13 +45,21 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+
+          setSuccessMessage(`Added ${newPerson.name}`)
+
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
+
         })
+        .catch(_error => {
+          setErrorMessage(`Error Creating ${newPerson.name}!`)
 
-      setSuccessMessage(`Added ${newPerson.name}`)
-
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
 
     } else if (alreadyIn > 0) {
       if (confirm(`${newName} is already added to the phonebook, replace the old number with the new one?`)) {
@@ -56,12 +72,21 @@ const App = () => {
             setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson))
             setNewName('')
             setNewNumber('')
-          })
-        setSuccessMessage(`Updated ${updatedPerson.name}`)
 
-        setTimeout(() => {
-          setSuccessMessage(null)
-        }, 5000)
+            setSuccessMessage(`Updated ${updatedPerson.name}`)
+
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 5000)
+
+          })
+          .catch(_error => {
+            setErrorMessage(`Information of ${person.name} has already been removed from the server!`)
+
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          })
       }
     } else {
       setErrorMessage(`Number ${newNumber} is already added to phonebook!`)
@@ -81,6 +106,13 @@ const App = () => {
         .deletePerson(id)
         .then(returnedData => {
           setPersons(persons.filter(person => person.id !== returnedData.id))
+        })
+        .catch(_error => {
+          setErrorMessage(`Information of ${person.name} has already been removed from the server!`)
+
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
 
       setSuccessMessage(`Deleted ${person.name}`)
