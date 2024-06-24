@@ -105,6 +105,7 @@ const App = () => {
       personService
         .deletePerson(id)
         .then(returnedData => {
+          console.log(returnedData)
           setPersons(persons.filter(person => person.id !== returnedData.id))
         })
         .catch(_error => {
