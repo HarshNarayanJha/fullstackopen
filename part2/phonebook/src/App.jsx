@@ -34,8 +34,7 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const alreadyIn = persons.reduce((acc, p) => { return acc + (p.name === newName) ? 1 : 0 + (p.number === newNumber) ? -1 : 0 }, 0);
-
+    const alreadyIn = persons.reduce((acc, p) => { return acc + ((p.name === newName) ? 1 : 0) + ((p.number === newNumber) ? -1 : 0) }, 0);
     if (alreadyIn == 0) {
 
       const newPerson = { name: newName, number: newNumber }
