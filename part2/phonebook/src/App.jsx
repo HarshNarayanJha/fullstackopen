@@ -52,8 +52,9 @@ const App = () => {
           }, 5000)
 
         })
-        .catch(_error => {
-          setErrorMessage(`Error Creating ${newPerson.name}!`)
+        .catch(error => {
+          console.log(error.response.data.error)
+          setErrorMessage(`Error Creating ${newPerson.name}! ${error.response.data.error}`)
 
           setTimeout(() => {
             setErrorMessage(null)
@@ -79,8 +80,9 @@ const App = () => {
             }, 5000)
 
           })
-          .catch(_error => {
-            setErrorMessage(`Information of ${person.name} has already been removed from the server!`)
+          .catch(error => {
+            console.log(error.response.data.error)
+            setErrorMessage(`Error Updating ${updatedPerson.name}! ${error.response.data.error}`)
 
             setTimeout(() => {
               setErrorMessage(null)
