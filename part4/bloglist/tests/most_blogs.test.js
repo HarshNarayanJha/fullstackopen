@@ -2,7 +2,7 @@ const { test, describe } = require("node:test")
 const assert = require("node:assert")
 const listHelper = require("../utils/list_helper")
 
-describe("favourite blog", () => {
+describe("most blogs", () => {
   const listWithOneBlog = [
     {
       _id: "5a422aa71b54a676234d17f8",
@@ -66,17 +66,23 @@ describe("favourite blog", () => {
   ]
 
   test("of empty list is {}", () => {
-    const result = listHelper.favouriteBlog([])
+    const result = listHelper.mostBlogs([])
     assert.deepStrictEqual(result, {})
   })
 
   test("when list has only one blog post equals that", () => {
-    const result = listHelper.favouriteBlog(listWithOneBlog)
-    assert.deepStrictEqual(result, listWithOneBlog[0])
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    assert.deepStrictEqual(result, {
+      author: listWithOneBlog[0].author,
+      blogs: 1,
+    })
   })
 
   test("of a bigger list is found right", () => {
-    const result = listHelper.favouriteBlog(listWithManyBlogs)
-    assert.deepStrictEqual(result, listWithManyBlogs[2])
+    const result = listHelper.mostBlogs(listWithManyBlogs)
+    assert.deepStrictEqual(result, {
+      author: listWithManyBlogs[3].author,
+      blogs: 3,
+    })
   })
 })
