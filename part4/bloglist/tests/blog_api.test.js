@@ -89,6 +89,28 @@ test("url ommited is 404", async () => {
   await api.post("/api/blogs").send(newBlog).expect(400)
 })
 
+test("can delete blog", async () => {
+  await api.delete(`/api/blogs/${initialBlogs[0]._id}`).expect(204)
+  const response = await api.get("/api/blogs")
+  assert.strictEqual(response.body.length, initialBlogs.length - 1)
+})
+
+test("can update blog", async () => {
+  updatedBlog = {
+    title: "VueJS Features - Updated",
+    likes: 200,
+  }
+
+  const updatedResponse = await api.put(`/api/blogs/${initialBlogs[0]._id}`).send(updatedBlog)
+  const updated = await api.get(`/api/blogs/${initialBlogs[0]._id}`)
+
+  assert.strictEqual(updatedResponse.body.title, updatedBlog.title)
+  assert.strictEqual(updated.body.title, updatedBlog.title)
+
+  assert.strictEqual(updatedResponse.body.likes, updatedBlog.likes)
+  assert.strictEqual(updated.body.likes, updatedBlog.likes)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
