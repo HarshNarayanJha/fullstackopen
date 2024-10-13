@@ -29,6 +29,12 @@ test("length of the blogs are returned", async () => {
   assert.strictEqual(response.body.length, initialBlogs.length)
 })
 
+test("unique identifier property of the blog posts is named id", async () => {
+  const response = await api.get('/api/blogs')
+  const result = response.body.map(r => r.id)
+  assert(result[0] != null || result[0] != undefined)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
