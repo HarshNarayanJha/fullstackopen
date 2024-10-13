@@ -67,6 +67,28 @@ test("if ommited from request, likes default to be 0", async () => {
   assert.strictEqual(response.body.likes, 0)
 })
 
+test("title ommited is 404", async () => {
+  const newBlog = {
+    _id: "356a645fd14b92a2372ab741",
+    author: "Test Man 2",
+    url: "https://new.land",
+    __v: 0,
+  }
+
+  await api.post("/api/blogs").send(newBlog).expect(400)
+})
+
+test("url ommited is 404", async () => {
+  const newBlog = {
+    _id: "356a645fd14b92a2372ab741",
+    title: 'No more misses!',
+    author: "Test Man 2",
+    __v: 0,
+  }
+
+  await api.post("/api/blogs").send(newBlog).expect(400)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
