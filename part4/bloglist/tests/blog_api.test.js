@@ -51,7 +51,15 @@ test("new blog can be created", async () => {
     __v: 0,
   }
 
-  await api.post("/api/blogs").send(newBlog).expect(201).expect("Content-Type", "application/json; charset=utf-8")
+  const tokenResponse = await api.post("/api/login").send({ username: "user1", password: "password@123" })
+  const token = tokenResponse.body.token
+
+  await api
+    .post("/api/blogs")
+    .set("Authorization", `Bearer ${token}`)
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", "application/json; charset=utf-8")
 
   const response = await api.get("/api/blogs")
   const contents = response.body.map(r => r.title)
@@ -69,7 +77,10 @@ test("if ommited from request, likes default to be 0", async () => {
     __v: 0,
   }
 
-  const response = await api.post("/api/blogs").send(newBlog)
+  const tokenResponse = await api.post("/api/login").send({ username: "user1", password: "password@123" })
+  const token = tokenResponse.body.token
+
+  const response = await api.post("/api/blogs").set("Authorization", `Bearer ${token}`).send(newBlog)
   assert.strictEqual(response.body.likes, 0)
 })
 
@@ -81,7 +92,10 @@ test("title ommited is 404", async () => {
     __v: 0,
   }
 
-  await api.post("/api/blogs").send(newBlog).expect(400)
+  const tokenResponse = await api.post("/api/login").send({ username: "user1", password: "password@123" })
+  const token = tokenResponse.body.token
+
+  await api.post("/api/blogs").set("Authorization", `Bearer ${token}`).send(newBlog).expect(400)
 })
 
 test("url ommited is 404", async () => {
@@ -92,11 +106,17 @@ test("url ommited is 404", async () => {
     __v: 0,
   }
 
-  await api.post("/api/blogs").send(newBlog).expect(400)
+  const tokenResponse = await api.post("/api/login").send({ username: "user1", password: "password@123" })
+  const token = tokenResponse.body.token
+
+  await api.post("/api/blogs").set("Authorization", `Bearer ${token}`).send(newBlog).expect(400)
 })
 
 test("can delete blog", async () => {
-  await api.delete(`/api/blogs/${initialBlogs[0]._id}`).expect(204)
+  const tokenResponse = await api.post("/api/login").send({ username: "user1", password: "password@123" })
+  const token = tokenResponse.body.token
+
+  await api.delete(`/api/blogs/${initialBlogs[0]._id}`).set("Authorization", `Bearer ${token}`).expect(204)
   const response = await api.get("/api/blogs")
   assert.strictEqual(response.body.length, initialBlogs.length - 1)
 })
@@ -107,7 +127,13 @@ test("can update blog", async () => {
     likes: 200,
   }
 
-  const updatedResponse = await api.put(`/api/blogs/${initialBlogs[0]._id}`).send(updatedBlog)
+  const tokenResponse = await api.post("/api/login").send({ username: "user1", password: "password@123" })
+  const token = tokenResponse.body.token
+
+  const updatedResponse = await api
+    .put(`/api/blogs/${initialBlogs[0]._id}`)
+    .set("Authorization", `Bearer ${token}`)
+    .send(updatedBlog)
   const updated = await api.get(`/api/blogs/${initialBlogs[0]._id}`)
 
   assert.strictEqual(updatedResponse.body.title, updatedBlog.title)
