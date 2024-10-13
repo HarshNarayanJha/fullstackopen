@@ -10,7 +10,7 @@ blogsRouter.get("/", async (request, response) => {
 blogsRouter.post("/", async (request, response, next) => {
   const body = request.body
 
-  const user = await User.findById(body.userId)
+  const user = await User.findById(body.user)
 
   if (body.title == undefined) {
     return response.status(400).json({ error: "title missing" })
@@ -18,6 +18,10 @@ blogsRouter.post("/", async (request, response, next) => {
 
   if (body.url == undefined) {
     return response.status(400).json({ error: "url missing" })
+  }
+
+  if (body.user == undefined) {
+    return response.status(400).json({ error: "user missing" })
   }
 
   const blog = new Blog({
@@ -29,7 +33,7 @@ blogsRouter.post("/", async (request, response, next) => {
 
   const savedBlog = await blog.save()
 
-  user.blogs = user.blogs.concat(saveNode._id)
+  user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
   response.status(201).json(savedBlog)
