@@ -31,7 +31,6 @@ const initialBlogs = [
     author: "Tester",
     url: "https://vuejs.org",
     likes: 10,
-    user: "670bceedc88ecb203d3abe3d",
     __v: 0,
   },
   {
@@ -40,7 +39,6 @@ const initialBlogs = [
     author: "Albert Einstein",
     url: "http://example.com",
     likes: 200,
-    user: "670bceedc88ecb203d3abe3d",
     __v: 0,
   },
 ]

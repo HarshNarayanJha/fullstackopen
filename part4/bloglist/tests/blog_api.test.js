@@ -48,7 +48,6 @@ test("new blog can be created", async () => {
     author: "Test Man 2",
     url: "https://new.land",
     likes: 124,
-    user: "670bceedc88ecb203d3abe3e",
     __v: 0,
   }
 
@@ -67,7 +66,6 @@ test("if ommited from request, likes default to be 0", async () => {
     title: "Another New Test Post",
     author: "Test Man 2",
     url: "https://new.land",
-    user: "670bceedc88ecb203d3abe3e",
     __v: 0,
   }
 
@@ -80,7 +78,6 @@ test("title ommited is 404", async () => {
     _id: "356a645fd14b92a2372ab741",
     author: "Test Man 2",
     url: "https://new.land",
-    user: "670bceedc88ecb203d3abe3e",
     __v: 0,
   }
 
@@ -92,19 +89,6 @@ test("url ommited is 404", async () => {
     _id: "356a645fd14b92a2372ab741",
     title: "No more misses!",
     author: "Test Man 2",
-    user: "670bceedc88ecb203d3abe3e",
-    __v: 0,
-  }
-
-  await api.post("/api/blogs").send(newBlog).expect(400)
-})
-
-test("user ommited is 404", async () => {
-  const newBlog = {
-    _id: "356a645fd14b92a2372ab741",
-    title: "No more misses!",
-    author: "Test Man 2",
-    url: "https://nomore.ts",
     __v: 0,
   }
 
