@@ -45,17 +45,26 @@ test("new blog can be created", async () => {
     __v: 0,
   }
 
-  await api
-    .post("/api/blogs")
-    .send(newBlog)
-    .expect(201)
-    .expect("Content-Type", "application/json; charset=utf-8")
+  await api.post("/api/blogs").send(newBlog).expect(201).expect("Content-Type", "application/json; charset=utf-8")
 
   const response = await api.get("/api/blogs")
   const contents = response.body.map(r => r.title)
 
   assert.strictEqual(response.body.length, initialBlogs.length + 1)
   assert(contents.includes("Another New Test Post"))
+})
+
+test("if ommited from request, likes default to be 0", async () => {
+  const newBlog = {
+    _id: "356a645fd14b92a2372ab741",
+    title: "Another New Test Post",
+    author: "Test Man 2",
+    url: "https://new.land",
+    __v: 0,
+  }
+
+  const response = await api.post("/api/blogs").send(newBlog)
+  assert.strictEqual(response.body.likes, 0)
 })
 
 after(async () => {
