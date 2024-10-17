@@ -72,7 +72,7 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <Togglable buttonLabel="Login">
+    <Togglable showLabel="Login">
       <LoginForm
         username={username}
         password={password}
@@ -84,7 +84,7 @@ const App = () => {
   )
 
   const blogForm = () => (
-    <Togglable buttonLabel="New Blog" ref={blogFormRef}>
+    <Togglable showLabel="New Blog" ref={blogFormRef}>
       <BlogForm createBlog={addBlog} />
     </Togglable>
   )
