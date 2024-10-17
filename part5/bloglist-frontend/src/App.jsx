@@ -1,19 +1,19 @@
-import { useState, useEffect, useRef } from "react"
-import Blog from "./components/Blog"
-import Notification from "./components/Notification"
-import LoginForm from "./components/LoginForm"
-import BlogForm from "./components/BlogForm"
-import Togglable from "./components/Togglable"
-import blogService from "./services/blogs"
-import loginService from "./services/login"
+import { useState, useEffect, useRef } from 'react'
+import Blog from './components/Blog'
+import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
+import blogService from './services/blogs'
+import loginService from './services/login'
 
 const App = () => {
   const blogFormRef = useRef()
   const [blogs, setBlogs] = useState([])
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   const fetchBlogs = async () => {
@@ -27,7 +27,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogUser")
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -41,15 +41,15 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password })
-      window.localStorage.setItem("loggedBlogUser", JSON.stringify(user))
+      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
       setUser(user)
       blogService.setToken(user.token)
-      setUsername("")
-      setPassword("")
+      setUsername('')
+      setPassword('')
     } catch (exception) {
       console.log(exception)
-      setErrorMessage("wrong username or password")
-      setPassword("")
+      setErrorMessage('wrong username or password')
+      setPassword('')
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
@@ -58,7 +58,7 @@ const App = () => {
 
   const handleLogout = e => {
     e.preventDefault()
-    window.localStorage.removeItem("loggedBlogUser")
+    window.localStorage.removeItem('loggedBlogUser')
     window.location.reload()
   }
 
@@ -75,7 +75,7 @@ const App = () => {
 
   const likeBlog = async blogDetails => {
     if (user === null) {
-      setErrorMessage(`Login first to Like!`)
+      setErrorMessage('Login first to Like!')
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
@@ -95,7 +95,7 @@ const App = () => {
 
   const deleteBlog = async blog => {
     if (user === null) {
-      setErrorMessage(`Login first to Like!`)
+      setErrorMessage('Login first to Like!')
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
@@ -104,7 +104,7 @@ const App = () => {
     }
 
     if (user.id !== blog.user.id) {
-      setErrorMessage(`Not your blog!`)
+      setErrorMessage('Not your blog!')
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
@@ -147,8 +147,8 @@ const App = () => {
   return (
     <div>
       <h1>blogs</h1>
-      <Notification message={errorMessage} messageType={"error"} />
-      <Notification message={successMessage} messageType={"success"} />
+      <Notification message={errorMessage} messageType={'error'} />
+      <Notification message={successMessage} messageType={'success'} />
 
       {user === null && loginForm()}
       {user !== null && (
