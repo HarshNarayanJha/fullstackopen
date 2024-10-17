@@ -18,6 +18,7 @@ const App = () => {
 
   const fetchBlogs = async () => {
     const blogs = await blogService.getAll()
+    console.log(blogs)
     setBlogs(blogs)
   }
 
@@ -30,6 +31,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      console.log(user)
       blogService.setToken(user.token)
     }
   }, [])
@@ -91,6 +93,39 @@ const App = () => {
     }, 3000)
   }
 
+  const deleteBlog = async blog => {
+    if (user === null) {
+      setErrorMessage(`Login first to Like!`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+
+      return
+    }
+
+    if (user.id !== blog.user.id) {
+      setErrorMessage(`Not your blog!`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+
+      return
+    }
+
+    if (!window.confirm(`Delete Blog ${blog.name} by ${blog.author}?`)) {
+      return
+    }
+
+    await blogService.deleteBlog(blog.id)
+
+    await fetchBlogs()
+
+    setSuccessMessage(`Blog ${blog.title} by ${blog.author} Deleted!`)
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 3000)
+  }
+
   const loginForm = () => (
     <Togglable showLabel="Login">
       <LoginForm
@@ -129,9 +164,17 @@ const App = () => {
         </div>
       )}
 
-      {blogs.sort((a, b) => a.likes < b.likes).map(blog => (
-        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
-      ))}
+      {blogs
+        .sort((a, b) => a.likes < b.likes)
+        .map(blog => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            likeBlog={likeBlog}
+            deleteBlog={deleteBlog}
+            showDeleteBlog={user && user.id === blog.user.id}
+          />
+        ))}
     </div>
   )
 }
