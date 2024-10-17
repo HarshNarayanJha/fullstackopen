@@ -71,6 +71,26 @@ const App = () => {
     }, 3000)
   }
 
+  const likeBlog = async blogDetails => {
+    if (user === null) {
+      setErrorMessage(`Login first to Like!`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+
+      return
+    }
+
+    const newBlog = await blogService.update(blogDetails.id, { ...blogDetails, likes: blogDetails.likes + 1 })
+
+    await fetchBlogs()
+
+    setSuccessMessage(`Blog ${newBlog.title} by ${newBlog.author} Liked!`)
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 3000)
+  }
+
   const loginForm = () => (
     <Togglable showLabel="Login">
       <LoginForm
@@ -110,7 +130,7 @@ const App = () => {
       )}
 
       {blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
       ))}
     </div>
   )
