@@ -129,7 +129,7 @@ const App = () => {
         </div>
       )}
 
-      {blogs.map(blog => (
+      {blogs.sort((a, b) => a.likes < b.likes).map(blog => (
         <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
       ))}
     </div>
