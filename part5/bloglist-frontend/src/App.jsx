@@ -117,7 +117,7 @@ const App = () => {
       return
     }
 
-    if (!window.confirm(`Delete Blog ${blog.name} by ${blog.author}?`)) {
+    if (!window.confirm(`Delete Blog ${blog.title} by ${blog.author}?`)) {
       return
     }
 

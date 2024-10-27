@@ -21,13 +21,13 @@ describe("Blog app", () => {
 
   describe("Login", () => {
     test("succeeds with correct credentials", async ({ page }) => {
-      loginWith(page, "mario", "zelda")
+      await loginWith(page, "mario", "zelda")
 
       await expect(page.getByText("mario logged in")).toBeVisible()
     })
 
     test("fails with wrong credentials", async ({ page }) => {
-      loginWith(page, "mario2", "wrongzelda")
+      await loginWith(page, "mario2", "wrongzelda")
 
       await expect(page.getByText("wrong username or password")).toBeVisible()
     })
@@ -35,14 +35,28 @@ describe("Blog app", () => {
 
   describe('When logged in', () => {
     beforeEach(async ({ page }) => {
-      loginWith(page, "mario", "zelda")
+      await loginWith(page, "mario", "zelda")
     })
 
     test('a new blog can be created', async ({ page }) => {
-      createBlog(page, "Testing", "Playwright", "https://playwright.dev")
+      await createBlog(page, "Testing", "Playwright", "https://playwright.dev")
 
       await expect(page.getByText('Blog Testing by Playwright Created Succesfully!')).toBeVisible()
       await expect(page.getByText(/^Testing/)).toBeVisible()
+    })
+  })
+
+  describe("When blogs", () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, "mario", "zelda")
+      await createBlog(page, "Testing Part 1", "Playwright", "https://playwright.dev")
+    })
+
+    test('blogs can be liked', async ({ page }) => {
+      await page.getByRole('button', {name: 'show'}).click()
+      await page.getByRole('button', {name: 'like'}).click()
+
+      await expect(page.getByText("Blog Testing Part 1 by Playwright Liked!")).toBeVisible()
     })
   })
 })
