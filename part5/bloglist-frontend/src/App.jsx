@@ -46,6 +46,11 @@ const App = () => {
       blogService.setToken(user.token)
       setUsername('')
       setPassword('')
+
+      setSuccessMessage(`${user.username} logged in`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 3000)
     } catch (exception) {
       console.log(exception)
       setErrorMessage('wrong username or password')
