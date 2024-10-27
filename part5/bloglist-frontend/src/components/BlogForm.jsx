@@ -20,11 +20,11 @@ const BlogForm = ({ createBlog }) => {
 
   return (
     <form onSubmit={addBlog}>
-      Title: <input value={newTitle} onChange={({ target }) => setNewTitle(target.value)} />
+      Title: <input data-testid="title" value={newTitle} onChange={({ target }) => setNewTitle(target.value)} />
       <br />
-      Author: <input value={newAuthor} onChange={({ target }) => setNewAuthor(target.value)} />
+      Author: <input data-testid="author" value={newAuthor} onChange={({ target }) => setNewAuthor(target.value)} />
       <br />
-      Url: <input value={newUrl} onChange={({ target }) => setNewUrl(target.value)} />
+      Url: <input data-testid="url" value={newUrl} onChange={({ target }) => setNewUrl(target.value)} />
       <br />
       <button type="submit">Save</button>
       <br />
