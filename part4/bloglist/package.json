@@ -7,6 +7,7 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development bun --hot index.js",
     "test": "NODE_ENV=test node --test",
+    "start:test": "NODE_ENV=test bun --hot index.js",
     "lint": "eslint ."
   },
   "keywords": [],

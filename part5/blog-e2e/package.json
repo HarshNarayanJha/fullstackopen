@@ -1,5 +1,5 @@
 {
-  "name": "part5",
+  "name": "blog-e2e",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,10 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.48.2",
+    "@types/bun": "latest",
     "@types/node": "^22.8.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }
