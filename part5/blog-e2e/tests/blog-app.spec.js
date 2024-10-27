@@ -1,4 +1,5 @@
 import { test, describe, beforeEach, expect } from "@playwright/test"
+import { loginWith, createBlog } from "./helper"
 
 describe("Blog app", () => {
   beforeEach(async ({ page, request }) => {
@@ -20,19 +21,13 @@ describe("Blog app", () => {
 
   describe("Login", () => {
     test("succeeds with correct credentials", async ({ page }) => {
-      await page.getByRole("button", { name: "Login" }).click()
-      await page.getByTestId("username").fill("mario")
-      await page.getByTestId("password").fill("zelda")
-      page.getByRole("button", { name: "login" }).click()
+      loginWith(page, "mario", "zelda")
 
       await expect(page.getByText("mario logged in")).toBeVisible()
     })
 
     test("fails with wrong credentials", async ({ page }) => {
-      await page.getByRole("button", { name: "Login" }).click()
-      await page.getByTestId("username").fill("mario2")
-      await page.getByTestId("password").fill("wrongzelda")
-      page.getByRole("button", { name: "login" }).click()
+      loginWith(page, "mario2", "wrongzelda")
 
       await expect(page.getByText("wrong username or password")).toBeVisible()
     })
@@ -40,21 +35,13 @@ describe("Blog app", () => {
 
   describe('When logged in', () => {
     beforeEach(async ({ page }) => {
-      await page.getByRole("button", { name: "Login" }).click()
-      await page.getByTestId("username").fill("mario")
-      await page.getByTestId("password").fill("zelda")
-      page.getByRole("button", { name: "login" }).click()
+      loginWith(page, "mario", "zelda")
     })
 
     test('a new blog can be created', async ({ page }) => {
-      await page.getByRole("button", { name: "New Blog" }).click()
-      await page.getByTestId("title").fill("Testing")
-      await page.getByTestId("author").fill("Playwright")
-      await page.getByTestId("url").fill("https://playwright.dev")
-      page.getByRole("button", { name: "Save" }).click()
+      createBlog(page, "Testing", "Playwright", "https://playwright.dev")
 
       await expect(page.getByText('Blog Testing by Playwright Created Succesfully!')).toBeVisible()
-
       await expect(page.getByText(/^Testing/)).toBeVisible()
     })
   })
