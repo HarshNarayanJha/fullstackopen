@@ -13,20 +13,20 @@ const Blog = ({ blog, likeBlog, deleteBlog, showDeleteBlog = false }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div>
         <span>{blog.title} &nbsp;</span>
         <button onClick={() => setDetailsVisible(!detailsVisible)}>
-          { detailsVisible ? 'hide': 'show' }
+          {detailsVisible ? 'hide' : 'show'}
         </button>
       </div>
 
       {detailsVisible && (
         <div>
-          <a href={ blog.url }>{blog.url}</a>
+          <a href={blog.url}>{blog.url}</a>
 
           <div>
-          likes {blog.likes} <button onClick={() => likeBlog(blog)}>like</button>
+            likes {blog.likes} <button onClick={() => likeBlog(blog)}>like</button>
             <br />
             {blog.author}
             <br />
