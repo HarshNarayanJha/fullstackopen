@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 
-const Blog = ({ blog, likeBlog, deleteBlog, showDeleteBlog }) => {
+const Blog = ({ blog, likeBlog, deleteBlog, showDeleteBlog = false }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -15,20 +15,23 @@ const Blog = ({ blog, likeBlog, deleteBlog, showDeleteBlog }) => {
   return (
     <div style={blogStyle}>
       <div>
-        {blog.title} &nbsp;
-        {detailsVisible && <button onClick={() => setDetailsVisible(false)}>{'hide'}</button>}
-        {!detailsVisible && <button onClick={() => setDetailsVisible(true)}>{'show'}</button>}
+        <span>{blog.title} &nbsp;</span>
+        <button onClick={() => setDetailsVisible(!detailsVisible)}>
+          { detailsVisible ? 'hide': 'show' }
+        </button>
       </div>
 
       {detailsVisible && (
         <div>
-          {blog.url}
-          <br />
+          <a href={ blog.url }>{blog.url}</a>
+
+          <div>
           likes {blog.likes} <button onClick={() => likeBlog(blog)}>like</button>
-          <br />
-          {blog.author}
-          <br />
-          {showDeleteBlog && <button style={{ color: 'red' }} onClick={() => deleteBlog(blog)}>delete</button>}
+            <br />
+            {blog.author}
+            <br />
+            {showDeleteBlog && <button style={{ color: 'red' }} onClick={() => deleteBlog(blog)}>delete</button>}
+          </div>
         </div>
       )}
     </div>
@@ -39,7 +42,7 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   likeBlog: PropTypes.func.isRequired,
   deleteBlog: PropTypes.func.isRequired,
-  showDeleteBlog: PropTypes.bool.isRequired
+  showDeleteBlog: PropTypes.bool
 }
 
 export default Blog
