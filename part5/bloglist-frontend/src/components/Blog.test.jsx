@@ -25,4 +25,14 @@ describe('Blog Component', () => {
     expect(screen.queryByText(blog.url)).toBeNull()
     expect(screen.queryByText('likes')).toBeNull()
   })
+
+  test('the url and likes are displayed when the button that controls the details is clicked', async () => {
+    const user = userEvent.setup()
+    const button = screen.getByText('show')
+    await user.click(button)
+
+    expect(screen.getByText(blog.url)).toBeDefined()
+    expect(screen.getByText('like')).toBeDefined()
+    expect(button).toHaveTextContent('hide')
+  })
 })
