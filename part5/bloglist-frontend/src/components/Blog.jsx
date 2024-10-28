@@ -28,12 +28,11 @@ const Blog = ({ blog, likeBlog, deleteBlog, showDeleteBlog = false }) => {
           <div>
             likes {blog.likes} <button onClick={() => likeBlog(blog)}>like</button>
             <br />
-            {blog.author}
-            <br />
             {showDeleteBlog && <button style={{ color: 'red' }} onClick={() => deleteBlog(blog)}>delete</button>}
           </div>
         </div>
       )}
+      <span>{blog.author}</span>
     </div>
   )
 }
