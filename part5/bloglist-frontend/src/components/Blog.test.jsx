@@ -4,13 +4,13 @@ import Blog from './Blog'
 
 describe('Blog Component', () => {
   const blog = {
-    title: 'Test blog',
-    author: 'Test author',
-    url: 'http://test.com',
-    likes: 10,
+    title: 'Blog 1',
+    author: 'Mario',
+    url: 'http://example.com',
+    likes: 12,
     user: {
-      username: 'test username',
-      name: 'test name',
+      username: 'mario',
+      name: 'mario',
     },
   }
   const likesMockHandler = vi.fn()

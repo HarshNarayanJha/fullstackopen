@@ -15,16 +15,16 @@ describe('BlogForm Component', () => {
     const urlInput = container.querySelector('input[data-testid="url"]')
     const createButton = screen.getByText('Save')
 
-    await user.type(titleInput, 'Test title')
-    await user.type(authorInput, 'Test author')
-    await user.type(urlInput, 'http://test.com')
+    await user.type(titleInput, 'Blog 1')
+    await user.type(authorInput, 'Luigi')
+    await user.type(urlInput, 'http://example.com')
     await user.click(createButton)
 
     expect(createBlogMockHandler.mock.calls).toHaveLength(1)
     expect(createBlogMockHandler.mock.calls[0][0]).toEqual({
-      title: 'Test title',
-      author: 'Test author',
-      url: 'http://test.com',
+      title: 'Blog 1',
+      author: 'Luigi',
+      url: 'http://example.com',
     })
   })
 })
