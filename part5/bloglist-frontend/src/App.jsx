@@ -45,12 +45,14 @@ const App = () => {
       setUsername('')
       setPassword('')
 
+      setSuccessMessage(null)
       setSuccessMessage(`${user.username} logged in`)
       setTimeout(() => {
         setSuccessMessage(null)
       }, 3000)
     } catch (exception) {
       console.log(exception)
+      setErrorMessage(null)
       setErrorMessage('wrong username or password')
       setPassword('')
       setTimeout(() => {
@@ -70,6 +72,7 @@ const App = () => {
     const newBlog = await blogService.create(blogDetails)
     await fetchBlogs()
 
+    setSuccessMessage(null)
     setSuccessMessage(`Blog ${newBlog.title} by ${newBlog.author} Created Succesfully!`)
     setTimeout(() => {
       setSuccessMessage(null)
@@ -78,6 +81,7 @@ const App = () => {
 
   const likeBlog = async blogDetails => {
     if (user === null) {
+      setErrorMessage(null)
       setErrorMessage('Login first to Like!')
       setTimeout(() => {
         setErrorMessage(null)
@@ -90,6 +94,7 @@ const App = () => {
 
     await fetchBlogs()
 
+    setSuccessMessage(null)
     setSuccessMessage(`Blog ${newBlog.title} by ${newBlog.author} Liked!`)
     setTimeout(() => {
       setSuccessMessage(null)
@@ -98,7 +103,8 @@ const App = () => {
 
   const deleteBlog = async blog => {
     if (user === null) {
-      setErrorMessage('Login first to Like!')
+      setErrorMessage(null)
+      setErrorMessage('Login first to Delete!')
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
@@ -107,6 +113,7 @@ const App = () => {
     }
 
     if (user.id !== blog.user.id) {
+      setErrorMessage(null)
       setErrorMessage('Not your blog!')
       setTimeout(() => {
         setErrorMessage(null)

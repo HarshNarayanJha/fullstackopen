@@ -3,15 +3,15 @@ import { loginWith, createBlog } from './helper'
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
-    await request.post('http://localhost:3003/api/testing/reset')
-    await request.post('http://localhost:3003/api/users', {
+    await request.post('/api/testing/reset')
+    await request.post('/api/users', {
       data: {
         name: 'Mario',
         username: 'mario',
         password: 'zelda',
       },
     })
-    await request.post('http://localhost:3003/api/users', {
+    await request.post('/api/users', {
       data: {
         name: 'Luigi',
         username: 'luigi',
@@ -104,6 +104,31 @@ describe('Blog app', () => {
 
         await blog.getByRole('button', { name: 'show' }).click()
         await expect(blog.getByRole('button', { name: 'delete' })).not.toBeVisible()
+      })
+
+      test('blogs should be organized from most likes to least likes', async ({ page }) => {
+        const blog1 = page.locator('.blog').filter({ hasText: 'Testing Part 1' })
+        const blog2 = page.locator('.blog').filter({ hasText: 'Testing Part 2' })
+        const blog3 = page.locator('.blog').filter({ hasText: 'Testing Part 3' })
+
+        await blog1.getByRole('button', { name: 'show' }).click()
+        await blog2.getByRole('button', { name: 'show' }).click()
+        await blog3.getByRole('button', { name: 'show' }).click()
+
+        await blog2.getByRole('button', { name: 'like' }).click()
+        await expect(page.getByText('Blog Testing Part 2 by Playwright Liked!')).toBeVisible()
+        await blog3.getByRole('button', { name: 'like' }).click()
+        await expect(page.getByText('Blog Testing Part 3 by Playwright Liked!')).toBeVisible()
+        await blog3.getByRole('button', { name: 'like' }).click()
+        await expect(page.getByText('Blog Testing Part 3 by Playwright Liked!')).toBeVisible()
+
+        await expect(blog3).toContainText('likes 2')
+        await expect(blog2).toContainText('likes 1')
+        await expect(blog1).toContainText('likes 0')
+
+        await expect(page.locator('.blog').first()).toContainText('Testing Part 3')
+        await expect(page.locator('.blog').nth(1)).toContainText('Testing Part 2')
+        await expect(page.locator('.blog').last()).toContainText('Testing Part 1')
       })
     })
   })
