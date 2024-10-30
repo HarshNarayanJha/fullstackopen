@@ -39,6 +39,7 @@ const reducer = (state = initialState, action) => {
   }
 }
 
+// Action Creators
 export const create = (content) => {
   return {
     type: 'NEW',
