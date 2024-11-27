@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { voteId } from "../reducers/anecdoteReducer";
+import { voteAnecdote } from "../reducers/anecdoteReducer";
 import { PropTypes } from "prop-types";
 
 const Anecdote = ({ anecdote, vote }) => {
@@ -37,11 +37,11 @@ const Anecdotes = () => {
   })
 
   const vote = (id) => {
-    dispatch(voteId(id))
+    dispatch(voteAnecdote(id))
   }
 
   return (
-    anecdotes.sort((a, b) => a.votes < b.votes).map(anecdote =>
+    [...anecdotes].sort((a, b) => a.votes < b.votes).map(anecdote =>
       <div key={anecdote.id}>
         <Anecdote anecdote={anecdote} vote={vote} />
       </div>
