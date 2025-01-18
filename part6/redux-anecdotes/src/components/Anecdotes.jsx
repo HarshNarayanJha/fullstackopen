@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
-import { voteAnecdote } from "../reducers/anecdoteReducer";
-import { setNotification } from "../reducers/notificationReducer";
-import { PropTypes } from "prop-types";
+import { useDispatch, useSelector } from "react-redux"
+import { voteAnecdote } from "../reducers/anecdoteReducer"
+import { setNotification } from "../reducers/notificationReducer"
+import { PropTypes } from "prop-types"
 
 const Anecdote = ({ anecdote, vote }) => {
   // Add PropTypes validation
@@ -12,7 +12,7 @@ const Anecdote = ({ anecdote, vote }) => {
       id: PropTypes.string.isRequired
     }).isRequired,
     vote: PropTypes.func.isRequired
-  };
+  }
 
   return (
     <>
