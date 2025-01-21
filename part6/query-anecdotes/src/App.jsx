@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { getAnecdotes } from './utils/request'
+import { getAnecdotes, createAnecdote } from './utils/request'
 
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
