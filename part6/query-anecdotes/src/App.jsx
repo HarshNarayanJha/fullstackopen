@@ -20,7 +20,7 @@ const App = () => {
 
   const result = useQuery({
     queryKey: ['anecdotes'],
-    queryFn: () => axios.get('http://localhost:3001/anecdotes').then(res => res.data)
+    queryFn: getAnecdotes
   })
 
   if (result.isLoading) {
