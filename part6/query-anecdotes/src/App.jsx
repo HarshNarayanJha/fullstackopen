@@ -4,9 +4,10 @@ import { getAnecdotes, createAnecdote, updateAnecdote } from './utils/request'
 
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
+import { useNotification } from './components/NotificationContext'
 
 const App = () => {
-
+  const { showNotification } = useNotification()
   const queryClient = useQueryClient()
 
   const updateAnecdoteMutation = useMutation({
@@ -16,6 +17,7 @@ const App = () => {
 
   const handleVote = (anecdote) => {
     updateAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 })
+    showNotification(`you voted '${anecdote.content}'`)
   }
 
   const result = useQuery({
