@@ -10,8 +10,8 @@ This repository contains my exercise solutions for the fullstackopen course [her
 - [x] part2
 - [x] [part3](https://github.com/HarshNarayanJha/fullstackopen-backend/tree/main/part3)
 - [x] part4
-- [ ] part5
-- [ ] part6
+- [x] part5
+- [x] part6
 - [ ] part7
 - [ ] part8
 - [ ] part9
