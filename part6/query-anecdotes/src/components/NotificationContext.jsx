@@ -5,6 +5,7 @@ import { createContext } from "react";
 
 const NotificationContext = createContext()
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useNotification = () => useContext(NotificationContext)
 
 const initialState = {
@@ -26,6 +27,7 @@ const notificationReducer = (state, action) => {
   }
 }
 
+// eslint-disable-next-line react/prop-types
 export const NotificationProvider = ({ children }) => {
   const [state, dispatch] = useReducer(notificationReducer, initialState)
 
